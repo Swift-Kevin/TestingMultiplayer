@@ -71,8 +71,6 @@ public class PlayerNetwork : NetworkBehaviour
         {
             transform.Rotate(Vector3.up * input.x);
         }
-
-        Debug.Log(input.x);
     }
 
     private void Movement()

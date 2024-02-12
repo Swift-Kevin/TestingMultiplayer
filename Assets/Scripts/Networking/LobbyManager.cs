@@ -23,18 +23,14 @@ public class LobbyManager : MonoBehaviour
     private string playerName;
     private bool isAuthenticated = false;
 
-    [SerializeField] private float heartbeatTimer, lobbyTimer;
-    [SerializeField] private float heartbeatTimerMax = 15f, lobbyTimerMax = 15f;
+    [SerializeField] private float heartbeatTimer;
+    [SerializeField] private float heartbeatTimerMax = 15f;
 
-    // For Getting Colors and Names setup hopefully!
-    private NetworkList<PlayerData> playerDataNetworkList;
 
 
     private void Awake()
     {
         Instance = this;
-
-        playerDataNetworkList = new NetworkList<PlayerData>();
     }
 
     public async void Authenticate(string _playerName)

@@ -9,11 +9,14 @@ using Unity.Netcode;
 using Unity.Netcode.Transports.UTP;
 using Unity.Networking.Transport.Relay;
 using System.Threading.Tasks;
+using System;
+using Unity.VisualScripting;
 
 public class RelayManager : MonoBehaviour
 {
     public static RelayManager Instance { get; private set; }
-   
+    [SerializeField] public List<Color> availableColorList;
+
     private void Awake()
     {
         Instance = this;
@@ -88,5 +91,39 @@ public class RelayManager : MonoBehaviour
             Debug.LogError(e);
             return 1;
         }
+    }
+
+    public void ChangePlayerColor(byte colorId)
+    {
+        ulong localClientId = NetworkManager.Singleton.LocalClientId;
+        if (!NetworkManager.Singleton.ConnectedClients.TryGetValue(localClientId, out NetworkClient networkClient))
+        {
+            Debug.Log("Local Client Object Not Found!");
+            return;
+        }
+
+        if (!networkClient.PlayerObject.TryGetComponent(out PlayerVisual playerVisual))
+        {
+            Debug.Log("PlayerVisual Component not on Player Object");
+            return;
+        }
+
+        playerVisual.SetPlayerColorServerRpc(colorId);
+        Debug.Log("Set Player Color to Color: " + availableColorList[colorId] + " with ID: " + colorId);
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        return default;
+    }
+
+    public Color GetPlayerColor(int idx)
+    {
+        return availableColorList[idx];
+    }
+
+    public bool IsPlayerIndexConnected(int playerIndex)
+    {
+        return playerIndex < NetworkManager.Singleton.ConnectedClients.Count;
     }
 }
