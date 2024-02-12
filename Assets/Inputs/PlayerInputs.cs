@@ -62,6 +62,24 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PauseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""e65f618d-b7f1-4eed-b59b-da2650410351"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ColorCycle"",
+                    ""type"": ""Button"",
+                    ""id"": ""174187f3-22e8-4719-83f3-c456de1925bf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -207,6 +225,39 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""Sprint"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5dce80fa-29d2-4cad-b0ef-d65a4def44ab"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b59ee069-16e2-4829-a4a9-626f83e0e132"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PauseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""875d4d10-14a2-48bd-8089-17b754dba940"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ColorCycle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -280,6 +331,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Camera = m_Player.FindAction("Camera", throwIfNotFound: true);
         m_Player_SpawnObject = m_Player.FindAction("SpawnObject", throwIfNotFound: true);
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
+        m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
+        m_Player_ColorCycle = m_Player.FindAction("ColorCycle", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -345,6 +398,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Camera;
     private readonly InputAction m_Player_SpawnObject;
     private readonly InputAction m_Player_Sprint;
+    private readonly InputAction m_Player_PauseMenu;
+    private readonly InputAction m_Player_ColorCycle;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -353,6 +408,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Camera => m_Wrapper.m_Player_Camera;
         public InputAction @SpawnObject => m_Wrapper.m_Player_SpawnObject;
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
+        public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
+        public InputAction @ColorCycle => m_Wrapper.m_Player_ColorCycle;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -374,6 +431,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Sprint.started += instance.OnSprint;
             @Sprint.performed += instance.OnSprint;
             @Sprint.canceled += instance.OnSprint;
+            @PauseMenu.started += instance.OnPauseMenu;
+            @PauseMenu.performed += instance.OnPauseMenu;
+            @PauseMenu.canceled += instance.OnPauseMenu;
+            @ColorCycle.started += instance.OnColorCycle;
+            @ColorCycle.performed += instance.OnColorCycle;
+            @ColorCycle.canceled += instance.OnColorCycle;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -390,6 +453,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @Sprint.started -= instance.OnSprint;
             @Sprint.performed -= instance.OnSprint;
             @Sprint.canceled -= instance.OnSprint;
+            @PauseMenu.started -= instance.OnPauseMenu;
+            @PauseMenu.performed -= instance.OnPauseMenu;
+            @PauseMenu.canceled -= instance.OnPauseMenu;
+            @ColorCycle.started -= instance.OnColorCycle;
+            @ColorCycle.performed -= instance.OnColorCycle;
+            @ColorCycle.canceled -= instance.OnColorCycle;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -458,5 +527,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnCamera(InputAction.CallbackContext context);
         void OnSpawnObject(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
+        void OnPauseMenu(InputAction.CallbackContext context);
+        void OnColorCycle(InputAction.CallbackContext context);
     }
 }

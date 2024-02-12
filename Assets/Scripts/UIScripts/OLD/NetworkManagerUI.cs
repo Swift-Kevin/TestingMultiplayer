@@ -16,7 +16,7 @@ public class NetworkManagerUI : MonoBehaviour
     [SerializeField] private GameObject joinMenu;
     [SerializeField] private GameObject inGameMenu;
 
-    [SerializeField] private RelayHandler relayScript;
+    [SerializeField] private RelayManager relayScript;
 
     [SerializeField] private TextMeshProUGUI joinCodeTextBox;
 

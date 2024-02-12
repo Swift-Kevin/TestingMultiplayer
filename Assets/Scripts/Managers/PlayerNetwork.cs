@@ -5,29 +5,24 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.InputSystem.Processors;
 using System.Runtime.Serialization.Json;
+using UnityEngine.Windows;
 
 public class PlayerNetwork : NetworkBehaviour
 {
-    PlayerInputs playerInput;
-    private Transform spawnedObjectTransform;
-
-    //GameObject playerCam;
-
     [Range(0.1f, 1000f)]
     [SerializeField] private float moveSpeed = 15f;
     [Range(0.1f, 5000f)]
     [SerializeField] private float camSens = 100f;
-    [SerializeField] private Transform spawnObjectPrefab;
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private GameObject playerObject;
     [SerializeField] private Rigidbody rigidBody;
+    [SerializeField] private Camera playerCam;
 
     float yRotation, origSpeed;
 
     // NOTE !!! Should not use Awake or Start with Networking objects
     public override void OnNetworkSpawn()
     {
-        playerInput = new PlayerInputs();
-        playerInput.Player.Enable();
         origSpeed = moveSpeed;
 
         if (IsLocalPlayer)
@@ -40,22 +35,16 @@ public class PlayerNetwork : NetworkBehaviour
         if (!IsOwner) return; // IsOwner is apart of NetworkBehavior and not MonoBehavior
 
         SprintChecking();
-
         AimCamera();
-
-        if (playerInput.Player.SpawnObject.WasPerformedThisFrame())
-        {
-            SpawnObjectServerRpc();
-        }
     }
 
     private void SprintChecking()
     {
-        if (playerInput.Player.Sprint.WasPerformedThisFrame())
+        if (InputManager.Instance.SprintPerformed())
         {
             moveSpeed *= 2f;
         }
-        else if (playerInput.Player.Sprint.WasReleasedThisFrame())
+        else if (InputManager.Instance.SprintReleased())
         {
             moveSpeed = origSpeed;
         }
@@ -68,7 +57,9 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void AimCamera()
     {
-        var input = playerInput.Player.Camera.ReadValue<Vector2>() * Time.deltaTime * camSens;
+        if (!IsOwner) return;
+
+        var input = InputManager.Instance.CameraReadValue() * Time.deltaTime * camSens;
         yRotation += -input.y;
         yRotation = Mathf.Clamp(yRotation, -45, 45);
 
@@ -76,20 +67,35 @@ public class PlayerNetwork : NetworkBehaviour
         cameraTransform.parent.localRotation = Quaternion.Euler(yRotation, 0, cameraTransform.parent.localRotation.z);
 
         // Rotate horizontally
-        transform.Rotate(Vector3.up * input.x);
+        if (Mathf.Abs(input.x) > 0)
+        {
+            transform.Rotate(Vector3.up * input.x);
+        }
+
+        Debug.Log(input.x);
     }
 
     private void Movement()
     {
-        Vector2 move = playerInput.Player.Movement.ReadValue<Vector2>() * moveSpeed * Time.deltaTime;
+        Vector2 move = InputManager.Instance.PlayerMoveVector() * moveSpeed * Time.deltaTime;
         rigidBody.velocity = transform.TransformDirection(new Vector3(move.x, rigidBody.velocity.y, move.y));
     }
 
-    [ServerRpc]
-    private void SpawnObjectServerRpc()
+    public override void OnNetworkDespawn()
     {
-        Debug.Log("Spawning Object");
-        spawnedObjectTransform = Instantiate(spawnObjectPrefab, gameObject.transform);
-        spawnedObjectTransform.GetComponent<NetworkObject>().Spawn(true);
+        if (IsOwner)
+        {
+            GameManager.Instance.ReturnToMainMenu();
+        }
+    }
+
+    public GameObject GetPlayerObject()
+    {
+        return playerObject;
+    }
+
+    public Camera GetPlayerCam()
+    {
+        return playerCam;
     }
 }
