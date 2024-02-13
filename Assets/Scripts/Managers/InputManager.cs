@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Windows.WebCam;
 
 public class InputManager : MonoBehaviour
 {
     public PlayerInputs playerInput;
     public static InputManager Instance;
-    
+
+
     private void Awake()
     {
         Instance = this;
@@ -64,4 +66,6 @@ public class InputManager : MonoBehaviour
     {
         return playerInput.Player.ColorCycle.WasPerformedThisFrame();
     }
+
+
 }

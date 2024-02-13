@@ -452,11 +452,7 @@ MonoBehaviour:
         byte0123: 0
         byte0124: 0
         byte0125: 0
-  colors:
-  - {r: 0, g: 0.7488587, b: 1, a: 0}
-  - {r: 1, g: 0, b: 0, a: 0}
-  - {r: 0, g: 1, b: 0.0553751, a: 0}
-  - {r: 1, g: 0, b: 0.93475723, a: 0}
+  selfUI: {fileID: 8959571255393674990}
 --- !u!114 &2049081025304935725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,11 +466,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   teamColourRenderer: {fileID: 4270246371248083847}
-  teamColours:
-  - {r: 0, g: 0.7490196, b: 1, a: 1}
-  - {r: 1, g: 0, b: 0, a: 1}
-  - {r: 0, g: 1, b: 0.054901965, a: 1}
-  - {r: 1, g: 0, b: 0.9333334, a: 1}
 --- !u!1 &4468981761813603564
 GameObject:
   m_ObjectHideFlags: 0

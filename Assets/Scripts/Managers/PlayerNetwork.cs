@@ -11,8 +11,6 @@ public class PlayerNetwork : NetworkBehaviour
 {
     [Range(0.1f, 1000f)]
     [SerializeField] private float moveSpeed = 15f;
-    [Range(0.1f, 5000f)]
-    [SerializeField] private float camSens = 100f;
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private GameObject playerObject;
     [SerializeField] private Rigidbody rigidBody;
@@ -57,9 +55,9 @@ public class PlayerNetwork : NetworkBehaviour
 
     private void AimCamera()
     {
-        if (!IsOwner) return;
+        if (!IsOwner || UIManagerScript.Instance.GetPauseOpened()) return;
 
-        var input = InputManager.Instance.CameraReadValue() * Time.deltaTime * camSens;
+        var input = InputManager.Instance.CameraReadValue() * Time.deltaTime * SettingsManager.Instance.GetCamSens();
         yRotation += -input.y;
         yRotation = Mathf.Clamp(yRotation, -45, 45);
 

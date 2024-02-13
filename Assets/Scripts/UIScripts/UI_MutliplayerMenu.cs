@@ -19,7 +19,7 @@ public class UI_MutliplayerMenu : MonoBehaviour
 
     private async void HostButtonFunctionality()
     {
-        await LobbyManager.Instance.CreateLobby("MyLobby", false);
+        await ConnectionManager.Instance.CreateLobby("MyLobby", false);
         
         UIManagerScript.Instance.HideAllMenus();
         UIManagerScript.Instance.SetIsInGame(true);
@@ -27,7 +27,7 @@ public class UI_MutliplayerMenu : MonoBehaviour
 
     private async void JoinButtonFunctionality()
     {
-        await LobbyManager.Instance.QuickJoinLobby();
+        await ConnectionManager.Instance.QuickJoinLobby();
         UIManagerScript.Instance.HideAllMenus();
         UIManagerScript.Instance.SetIsInGame(true);
     }

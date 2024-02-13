@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] LobbyManager script_LobbyManagement;
+    [SerializeField] ConnectionManager script_LobbyManagement;
 
     public static GameManager Instance;
 
@@ -20,7 +20,7 @@ public class GameManager : MonoBehaviour
         Screen.fullScreen = true;
     }
 
-    public LobbyManager GetLobbyManagementScript()
+    public ConnectionManager GetLobbyManagementScript()
     {
         return script_LobbyManagement;
     }
@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
     {
         if (!NetworkManager.Singleton.ShutdownInProgress)
         {
-            LobbyManager.Instance.LeaveLobby();
+            ConnectionManager.Instance.LeaveLobby();
         }   NetworkManager.Singleton.Shutdown();
     }
 

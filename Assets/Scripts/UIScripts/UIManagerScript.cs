@@ -23,6 +23,8 @@ public class UIManagerScript : MonoBehaviour
 
     private bool isInGame = false;
 
+    private bool isPauseOpened = false;
+
     private void Awake()
     {
         Instance = this;
@@ -63,11 +65,13 @@ public class UIManagerScript : MonoBehaviour
         {
             HideAllMenus();
             GameManager.Instance.MouseLockHide();
+            isPauseOpened = false;
         }
         else
         {
             DisplayPauseMenu();
             GameManager.Instance.MouseUnlockShow();
+            isPauseOpened = true;
         }
     }
 
@@ -111,7 +115,7 @@ public class UIManagerScript : MonoBehaviour
 
     private void AuthStart()
     {
-        LobbyManager.Instance.Authenticate("Player0");
+        ConnectionManager.Instance.Authenticate("Player0");
     }
 
     public void SetIsInGame(bool value)
@@ -122,5 +126,10 @@ public class UIManagerScript : MonoBehaviour
     public bool GetIsInGame()
     {
         return isInGame;
+    }
+
+    public bool GetPauseOpened()
+    {
+        return isPauseOpened;
     }
 }

@@ -287,4 +287,23 @@ public class ExampleNetworkingFunctions : NetworkBehaviour
     //    }
     //}
 
+
+    //private async void UpdatePlayerName(string newPlayerName)
+    //{
+    //    try
+    //    {
+    //        playerName = newPlayerName;
+    //        await LobbyService.Instance.UpdatePlayerAsync(joinedLobby.Id, AuthenticationService.Instance.PlayerId, new UpdatePlayerOptions
+    //        {
+    //            Data = new Dictionary<string, PlayerDataObject>
+    //            {
+    //               {KEY_PLAYER_NAME, new PlayerDataObject(PlayerDataObject.VisibilityOptions.Member, playerName)}
+    //            }
+    //        });
+    //    }
+    //    catch (LobbyServiceException e)
+    //    {
+    //        Debug.Log(e);
+    //    }
+    //}
 }
