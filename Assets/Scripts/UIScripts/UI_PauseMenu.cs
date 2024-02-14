@@ -15,11 +15,6 @@ public class UI_PauseMenu : MonoBehaviour
         button_Exit.onClick.AddListener(ExitButtonFunctionality);
     }
 
-    void Update()
-    {
-        
-    }
-
     private void ContinueButtonFunctionality()
     {
         GameManager.Instance.PauseGame();
@@ -27,6 +22,7 @@ public class UI_PauseMenu : MonoBehaviour
 
     private void ExitButtonFunctionality()
     {
+        InGameConsole.Instance.ClearInGameConsole();
         GameManager.Instance.ReturnToMainMenu();
     }
 }

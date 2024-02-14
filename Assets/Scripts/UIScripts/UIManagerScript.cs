@@ -105,12 +105,12 @@ public class UIManagerScript : MonoBehaviour
 
     public void EnableMultiplayerButtons()
     {
-        multiplayerMenuScript.EnableMultiplayerButtons();
+        multiplayerMenuScript.EnableButtons();
     }
     
     public void DisableMultiplayerButtons()
     {
-        multiplayerMenuScript.DisableMultiplayerButtons();
+        multiplayerMenuScript.DisableButtons();
     }
 
     private void AuthStart()

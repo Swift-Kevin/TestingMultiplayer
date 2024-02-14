@@ -12,6 +12,7 @@ using Unity.Netcode;
 using Unity.Networking.Transport.Relay;
 using Unity.Services.Relay.Models;
 using Unity.Services.Relay;
+using System.Net;
 
 public class ConnectionManager : MonoBehaviour
 {
@@ -20,8 +21,10 @@ public class ConnectionManager : MonoBehaviour
     private const string KEY_PLAYER_NAME = "PlayerName";
     private const string KEY_GAME_MODE = "GameMode";
     private const string KEY_JOIN_CODE = "JoinCode";
-
+    private const string KEY_LAN_IP = "IP";
+    private const string DEFAULT_LOBBY_NAME = "MyLobby";
     private const int maxPlayers = 4;
+
     private Lobby hostLobby;
     private Lobby joinedLobby;
     private string playerName;
@@ -81,7 +84,6 @@ public class ConnectionManager : MonoBehaviour
             joinedLobby = hostLobby;
 
             Debug.Log("Created Lobby: " + hostLobby.Name + " " + hostLobby.MaxPlayers);
-
             return joinCode;
         }
         catch (LobbyServiceException e)
@@ -186,6 +188,63 @@ public class ConnectionManager : MonoBehaviour
 
             Lobby lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
             await JoinRelay(lobby.Data[KEY_JOIN_CODE].Value);
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError(e);
+        }
+    }
+
+    public async Task LANHostLobby()
+    {
+        try
+        {
+            string lobbyName = "MyLobby";
+
+            string hostName = Dns.GetHostName();
+
+            hostName = Dns.GetHostName();
+            IPHostEntry myIP = Dns.GetHostEntry(hostName);
+            IPAddress[] address = myIP.AddressList;
+            string ip = address[1].ToString();
+
+            CreateLobbyOptions options = new CreateLobbyOptions
+            {
+                IsPrivate = false,
+                Player = GetPlayer(),
+                Data = new Dictionary<string, DataObject>
+                {
+                    {KEY_LAN_IP, new DataObject(DataObject.VisibilityOptions.Public, ip) },
+                }
+            };
+
+            hostLobby = await LobbyService.Instance.CreateLobbyAsync(lobbyName, maxPlayers, options);
+
+            Debug.Log("Created Lobby! " + hostLobby.Name + " " + hostLobby.MaxPlayers + " " + hostLobby.Id + " " + hostLobby.LobbyCode);
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(ip, (ushort)9000);
+            NetworkManager.Singleton.StartHost();
+        }
+        catch (LobbyServiceException e)
+        {
+            Debug.LogError(e);
+        }
+    }
+
+    public async Task LANJoinLobby()
+    {
+        try
+        {
+            QuickJoinLobbyOptions options = new QuickJoinLobbyOptions
+            {
+                Player = GetPlayer()
+            };
+
+            var lobby = await LobbyService.Instance.QuickJoinLobbyAsync(options);
+            Debug.Log("Quickly Joined lobby");
+
+            NetworkManager.Singleton.GetComponent<UnityTransport>().SetConnectionData(lobby.Data[KEY_LAN_IP].Value, (ushort)9000);
+            NetworkManager.Singleton.StartClient();
         }
         catch (LobbyServiceException e)
         {

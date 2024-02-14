@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
     {
         //Application.targetFrameRate = 45; // causes issues with camera rotation?
         QualitySettings.vSyncCount = 1;
-        Screen.fullScreen = true;
+        //Screen.fullScreen = true;
     }
 
     public ConnectionManager GetLobbyManagementScript()
