@@ -80,6 +80,15 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""SummonConsole"",
+                    ""type"": ""Button"",
+                    ""id"": ""5a17c361-0bc7-4463-b0b0-1455b2ccdc43"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -258,6 +267,17 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""ColorCycle"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""efe48fa4-4f01-4c0d-a4f6-26a26e2e81eb"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SummonConsole"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -333,6 +353,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_Sprint = m_Player.FindAction("Sprint", throwIfNotFound: true);
         m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
         m_Player_ColorCycle = m_Player.FindAction("ColorCycle", throwIfNotFound: true);
+        m_Player_SummonConsole = m_Player.FindAction("SummonConsole", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -400,6 +421,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Sprint;
     private readonly InputAction m_Player_PauseMenu;
     private readonly InputAction m_Player_ColorCycle;
+    private readonly InputAction m_Player_SummonConsole;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -410,6 +432,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_Player_Sprint;
         public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
         public InputAction @ColorCycle => m_Wrapper.m_Player_ColorCycle;
+        public InputAction @SummonConsole => m_Wrapper.m_Player_SummonConsole;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -437,6 +460,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ColorCycle.started += instance.OnColorCycle;
             @ColorCycle.performed += instance.OnColorCycle;
             @ColorCycle.canceled += instance.OnColorCycle;
+            @SummonConsole.started += instance.OnSummonConsole;
+            @SummonConsole.performed += instance.OnSummonConsole;
+            @SummonConsole.canceled += instance.OnSummonConsole;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -459,6 +485,9 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @ColorCycle.started -= instance.OnColorCycle;
             @ColorCycle.performed -= instance.OnColorCycle;
             @ColorCycle.canceled -= instance.OnColorCycle;
+            @SummonConsole.started -= instance.OnSummonConsole;
+            @SummonConsole.performed -= instance.OnSummonConsole;
+            @SummonConsole.canceled -= instance.OnSummonConsole;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -529,5 +558,6 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnPauseMenu(InputAction.CallbackContext context);
         void OnColorCycle(InputAction.CallbackContext context);
+        void OnSummonConsole(InputAction.CallbackContext context);
     }
 }

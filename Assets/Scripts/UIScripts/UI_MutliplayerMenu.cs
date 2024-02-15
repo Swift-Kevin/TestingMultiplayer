@@ -38,6 +38,9 @@ public class UI_MutliplayerMenu : MonoBehaviour
 
     private async void LANJoinButtonFunctionality()
     {
+        // Start ingame console
+        InGameConsole.Instance.BootUpConsole();
+
         await ConnectionManager.Instance.LANJoinLobby();
     
         InGameHideUI();
@@ -55,6 +58,9 @@ public class UI_MutliplayerMenu : MonoBehaviour
 
     private async void QuickJoinButtonFunctionality()
     {
+        // Start ingame console
+        InGameConsole.Instance.BootUpConsole();
+
         await ConnectionManager.Instance.QuickJoinLobby();
         InGameHideUI();
     }

@@ -35,6 +35,12 @@ public class PlayerNetwork : NetworkBehaviour
 
         SprintChecking();
         AimCamera();
+        SummonConsoleToPlayer();
+    }
+
+    private void FixedUpdate()
+    {
+        Movement();
     }
 
     private void SprintChecking()
@@ -49,26 +55,23 @@ public class PlayerNetwork : NetworkBehaviour
         }
     }
 
-    private void FixedUpdate()
-    {
-        Movement();
-    }
-
     private void AimCamera()
     {
-        if (!IsOwner || UIManagerScript.Instance.GetPauseOpened()) return;
+        if (!IsOwner) return;
 
         var input = InputManager.Instance.CameraReadValue() * Time.deltaTime * SettingsManager.Instance.GetCamSens();
         yRotation += -input.y;
         yRotation = Mathf.Clamp(yRotation, -45, 45);
-
-        // Rotate Vertically
-        cameraTransform.parent.localRotation = Quaternion.Euler(yRotation, 0, cameraTransform.parent.localRotation.z);
-
-        // Rotate horizontally
-        if (Mathf.Abs(input.x) > 0)
+        
+        if (!UIManagerScript.Instance.GetPauseOpened())
         {
-            transform.Rotate(Vector3.up * input.x);
+            // Rotate Vertically
+            cameraTransform.parent.localRotation = Quaternion.Euler(yRotation, 0, cameraTransform.parent.localRotation.z);
+            // Rotate horizontally
+            if (Mathf.Abs(input.x) > 0)
+            {
+                transform.Rotate(Vector3.up * input.x);
+            }
         }
     }
 
@@ -83,6 +86,14 @@ public class PlayerNetwork : NetworkBehaviour
         if (IsOwner)
         {
             GameManager.Instance.ReturnToMainMenu();
+        }
+    }
+
+    private void SummonConsoleToPlayer()
+    {
+        if (InputManager.Instance.WasSummonConsolePressed())
+        {
+            InGameConsole.Instance.SummonConsole(gameObject.transform.position, gameObject.transform.forward, gameObject.transform.rotation);
         }
     }
 

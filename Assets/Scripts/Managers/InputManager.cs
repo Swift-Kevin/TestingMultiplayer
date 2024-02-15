@@ -67,5 +67,9 @@ public class InputManager : MonoBehaviour
         return playerInput.Player.ColorCycle.WasPerformedThisFrame();
     }
 
+    public bool WasSummonConsolePressed()
+    {
+        return playerInput.Player.SummonConsole.WasPerformedThisFrame();
+    }
 
 }
