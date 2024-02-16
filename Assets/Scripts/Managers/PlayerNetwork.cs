@@ -16,6 +16,7 @@ public class PlayerNetwork : NetworkBehaviour
     [SerializeField] private GameObject playerObject;
     [SerializeField] private Rigidbody rigidBody;
     [SerializeField] private Camera playerCam;
+    [SerializeField, Range(0, 100)] private float playerLookRange;
 
     float yRotation, origSpeed;
 
@@ -61,7 +62,7 @@ public class PlayerNetwork : NetworkBehaviour
 
         var input = InputManager.Instance.CameraReadValue() * Time.deltaTime * SettingsManager.Instance.GetCamSens();
         yRotation += -input.y;
-        yRotation = Mathf.Clamp(yRotation, -45, 45);
+        yRotation = Mathf.Clamp(yRotation, -playerLookRange, playerLookRange);
         
         if (!UIManagerScript.Instance.GetPauseOpened())
         {
