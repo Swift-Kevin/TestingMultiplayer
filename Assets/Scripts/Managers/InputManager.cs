@@ -10,7 +10,6 @@ public class InputManager : MonoBehaviour
     public PlayerInputs playerInput;
     public static InputManager Instance;
 
-
     private void Awake()
     {
         Instance = this;
@@ -70,6 +69,11 @@ public class InputManager : MonoBehaviour
     public bool WasSummonConsolePressed()
     {
         return playerInput.Player.SummonConsole.WasPerformedThisFrame();
+    }
+
+    public bool WasRayCastPressed()
+    {
+        return playerInput.Player.CheckRayHit.WasPerformedThisFrame();
     }
 
 }

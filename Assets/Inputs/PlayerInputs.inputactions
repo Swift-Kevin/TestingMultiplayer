@@ -67,6 +67,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "CheckRayHit",
+                    "type": "Button",
+                    "id": "585e72c6-b38e-47eb-9f25-0621f6f6bfdb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ChangeSpawn",
+                    "type": "Button",
+                    "id": "ad667ea5-6aee-49c9-b6ec-b955ed2b157f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -254,6 +272,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "SummonConsole",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4cb446f4-f701-4b0f-aa39-d6195d433b67",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CheckRayHit",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84d4309b-1939-4183-84ce-181dfc5dfa49",
+                    "path": "<Keyboard>/o",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ChangeSpawn",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

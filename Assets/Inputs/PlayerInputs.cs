@@ -89,6 +89,24 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CheckRayHit"",
+                    ""type"": ""Button"",
+                    ""id"": ""585e72c6-b38e-47eb-9f25-0621f6f6bfdb"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChangeSpawn"",
+                    ""type"": ""Button"",
+                    ""id"": ""ad667ea5-6aee-49c9-b6ec-b955ed2b157f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -278,6 +296,28 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
                     ""action"": ""SummonConsole"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4cb446f4-f701-4b0f-aa39-d6195d433b67"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CheckRayHit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""84d4309b-1939-4183-84ce-181dfc5dfa49"",
+                    ""path"": ""<Keyboard>/o"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChangeSpawn"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -354,6 +394,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         m_Player_PauseMenu = m_Player.FindAction("PauseMenu", throwIfNotFound: true);
         m_Player_ColorCycle = m_Player.FindAction("ColorCycle", throwIfNotFound: true);
         m_Player_SummonConsole = m_Player.FindAction("SummonConsole", throwIfNotFound: true);
+        m_Player_CheckRayHit = m_Player.FindAction("CheckRayHit", throwIfNotFound: true);
+        m_Player_ChangeSpawn = m_Player.FindAction("ChangeSpawn", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -422,6 +464,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_PauseMenu;
     private readonly InputAction m_Player_ColorCycle;
     private readonly InputAction m_Player_SummonConsole;
+    private readonly InputAction m_Player_CheckRayHit;
+    private readonly InputAction m_Player_ChangeSpawn;
     public struct PlayerActions
     {
         private @PlayerInputs m_Wrapper;
@@ -433,6 +477,8 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         public InputAction @PauseMenu => m_Wrapper.m_Player_PauseMenu;
         public InputAction @ColorCycle => m_Wrapper.m_Player_ColorCycle;
         public InputAction @SummonConsole => m_Wrapper.m_Player_SummonConsole;
+        public InputAction @CheckRayHit => m_Wrapper.m_Player_CheckRayHit;
+        public InputAction @ChangeSpawn => m_Wrapper.m_Player_ChangeSpawn;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -463,6 +509,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @SummonConsole.started += instance.OnSummonConsole;
             @SummonConsole.performed += instance.OnSummonConsole;
             @SummonConsole.canceled += instance.OnSummonConsole;
+            @CheckRayHit.started += instance.OnCheckRayHit;
+            @CheckRayHit.performed += instance.OnCheckRayHit;
+            @CheckRayHit.canceled += instance.OnCheckRayHit;
+            @ChangeSpawn.started += instance.OnChangeSpawn;
+            @ChangeSpawn.performed += instance.OnChangeSpawn;
+            @ChangeSpawn.canceled += instance.OnChangeSpawn;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -488,6 +540,12 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
             @SummonConsole.started -= instance.OnSummonConsole;
             @SummonConsole.performed -= instance.OnSummonConsole;
             @SummonConsole.canceled -= instance.OnSummonConsole;
+            @CheckRayHit.started -= instance.OnCheckRayHit;
+            @CheckRayHit.performed -= instance.OnCheckRayHit;
+            @CheckRayHit.canceled -= instance.OnCheckRayHit;
+            @ChangeSpawn.started -= instance.OnChangeSpawn;
+            @ChangeSpawn.performed -= instance.OnChangeSpawn;
+            @ChangeSpawn.canceled -= instance.OnChangeSpawn;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -559,5 +617,7 @@ public partial class @PlayerInputs: IInputActionCollection2, IDisposable
         void OnPauseMenu(InputAction.CallbackContext context);
         void OnColorCycle(InputAction.CallbackContext context);
         void OnSummonConsole(InputAction.CallbackContext context);
+        void OnCheckRayHit(InputAction.CallbackContext context);
+        void OnChangeSpawn(InputAction.CallbackContext context);
     }
 }
